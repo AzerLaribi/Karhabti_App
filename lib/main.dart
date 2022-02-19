@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'Features/Screen/FeaturesScreen.dart';
 import 'HomeScreen/Screens/splachScreen.dart';
+import 'Connect/Screens/ConnectScreen.dart';
+import 'Connect/Screens/SignIn_screen.dart';
+import 'Connect/Screens/SignUp_screen.dart';
+import 'HomePage/Screens/HomePage_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'DeliMeals',
       theme: ThemeData(
-          primaryColor: Color.fromRGBO(128, 143, 164, 1),
+          primaryColor: Color.fromRGBO(36, 54, 95, 1),
           accentColor: Color.fromRGBO(122, 136, 162, 1),
           canvasColor: Color.fromRGBO(255, 254, 229, 1),
           fontFamily: 'Releway',
@@ -38,6 +42,10 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (context) => SplachScreen(),
         FeaturesScreen.routeName: (context) => FeaturesScreen(),
+        ConnectScreen.routeName: (context) => ConnectScreen(),
+        SignInScreen.routeName: (context) => SignInScreen(),
+        SignUpScreen.routeName: (context) => SignUpScreen(),
+        HomePageScreen.routeName: (context) => HomePageScreen()
       },
     );
   }

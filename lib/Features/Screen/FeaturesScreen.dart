@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import '../../Connect/Screens/ConnectScreen.dart';
 
 class FeaturesScreen extends StatefulWidget {
   static const routeName = '/features-screen';
@@ -18,7 +19,7 @@ class _FeaturesScreenState extends State<FeaturesScreen> {
   // redirection to signin/signup
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomePage()),
+      MaterialPageRoute(builder: (_) => ConnectScreen()),
     );
   }
 
@@ -100,21 +101,6 @@ class _FeaturesScreenState extends State<FeaturesScreen> {
                 title: "Karhabti Tutorials",
                 body: "Learn as you go to made you \n Car maintenance easy",
                 image: _buildImage('Tutorial.png'),
-                // footer: ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pushNamed(FeaturesScreen.routeName);
-                //   },
-                //   child: const Text(
-                //     'FooButton',
-                //     style: TextStyle(color: Colors.white),
-                //   ),
-                //   style: ElevatedButton.styleFrom(
-                //     primary: Theme.of(context).primaryColor,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(8.0),
-                //     ),
-                //   ),
-                // ),
                 decoration: pageDecoration,
               ),
             ],

@@ -74,6 +74,13 @@ flutter:
     - assets/images/Map.png
     - assets/images/Note.png
     - assets/images/Tutorial.png
+    - assets/images/facebook.png
+    - assets/images/gmail.png
+    - assets/images/Car.jpg
+    - assets/images/services/diagnostic.png
+    - assets/images/services/map.png
+    - assets/images/services/reminder.png
+    - assets/images/services/video-tutorial.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -18,7 +18,7 @@ class SplachScreen extends StatelessWidget {
       textType: TextType.NormalText,
       textStyle: TextStyle(
         fontSize: 15.0,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).accentColor,
         fontFamily: 'Montserrat',
         fontWeight: FontWeight.bold,
       ),
