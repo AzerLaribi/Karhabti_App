@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import '../../Features/Screen/FeaturesScreen.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 
-class SplachScreen extends StatelessWidget {
+class SplachScreen extends StatefulWidget {
   static const routeName = '/splach-screen';
-
+  
   const SplachScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SplachScreen> createState() => _SplachScreenState();
+}
+
+class _SplachScreenState extends State<SplachScreen> {
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(

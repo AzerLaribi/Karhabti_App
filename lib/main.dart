@@ -7,8 +7,17 @@ import 'Connect/Screens/ConnectScreen.dart';
 import 'Connect/Screens/SignIn_screen.dart';
 import 'Connect/Screens/SignUp_screen.dart';
 import 'HomePage/Screens/HomePage_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -16,6 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final bool _isloading;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,6 +51,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => SplachScreen(),
+        '/login/': (context) => SignInScreen(),
         FeaturesScreen.routeName: (context) => FeaturesScreen(),
         ConnectScreen.routeName: (context) => ConnectScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),

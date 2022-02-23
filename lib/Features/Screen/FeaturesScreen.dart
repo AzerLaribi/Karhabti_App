@@ -2,7 +2,6 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import '../../Connect/Screens/ConnectScreen.dart';
 
@@ -152,16 +151,6 @@ class _FeaturesScreenState extends State<FeaturesScreen> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text("This is the screen after Introduction")),
     );
   }
 }

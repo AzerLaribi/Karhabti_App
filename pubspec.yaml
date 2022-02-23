@@ -38,6 +38,9 @@ dependencies:
   http: ^0.13.4
   splash_screen_view: ^3.0.0
   introduction_screen: ^3.0.0
+  firebase_core: ^1.12.0
+  firebase_auth: ^3.3.7
+  flutter_login: ^3.1.0
   
 dev_dependencies:
   flutter_test:
