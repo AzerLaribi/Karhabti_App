@@ -1,14 +1,20 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:karhabti_app/HomePage/Screens/home_tabs_screen.dart';
+import 'package:karhabti_app/Notification/note_screen.dart';
+import 'package:karhabti_app/Notification/note_tabs_screen.dart';
+import 'package:karhabti_app/Notification/widgets/Events.dart';
 import 'Features/Screen/FeaturesScreen.dart';
 import 'HomeScreen/Screens/splachScreen.dart';
 import 'Connect/Screens/ConnectScreen.dart';
 import 'Connect/Screens/SignIn_screen.dart';
 import 'Connect/Screens/SignUp_screen.dart';
+import 'Connect/Screens/profile_screen.dart';
 import 'HomePage/Screens/HomePage_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'tabs_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,11 +58,17 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (context) => SplachScreen(),
         '/login/': (context) => SignInScreen(),
+        '/profil/': (context) => ProfileScreen(),
         FeaturesScreen.routeName: (context) => FeaturesScreen(),
         ConnectScreen.routeName: (context) => ConnectScreen(),
         SignInScreen.routeName: (context) => SignInScreen(),
         SignUpScreen.routeName: (context) => SignUpScreen(),
-        HomePageScreen.routeName: (context) => HomePageScreen()
+        HomePageScreen.routeName: (context) => HomePageScreen(),
+        NoteScreen.routeName: (context) => NoteScreen(),
+        TabsScreen.routeName: (context) => TabsScreen(),
+        NoteTabsScreen.routeName: (context) => NoteTabsScreen(),
+        TableEventsExample.routeName: (context) => TableEventsExample(),
+        HomeTabsScreen.routeName: (context) => HomeTabsScreen()
       },
     );
   }

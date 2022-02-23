@@ -10,6 +10,8 @@ import 'package:karhabti_app/Connect/Screens/ConnectScreen.dart';
 import 'package:karhabti_app/Connect/Screens/SignUp_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:karhabti_app/tabs_screen.dart';
+import '../Providers/Users.dart';
 import '../Providers/Users.dart';
 
 import '../../firebase_options.dart';
@@ -217,36 +219,46 @@ class _SignInScreenState extends State<SignInScreen> {
                                           formGlobalKey.currentState!.save();
                                           final email = _email.text;
                                           final password = _password.text;
-                                          final url = Uri.parse(
-                                              'https://test-1dc4e-default-rtdb.firebaseio.com/Login.json');
-
                                           try {
                                             final userCredential =
                                                 await FirebaseAuth.instance
                                                     .signInWithEmailAndPassword(
                                                         email: email,
                                                         password: password);
-                                            
-                                            final response = await http.post(
-                                              url,
-                                              body: json.encode({
-                                                'id': userCredential.user?.uid,
-                                                'email': _email.text,
-                                                'password':
-                                                    _password.text.hashCode,
-                                                'date':
-                                                    DateTime.now().toString(),
-                                              }),
-                                            );
-                                            print(json.encode(response.body));
+
                                             print(userCredential);
                                             print(_email.text);
+
+                                            print('you are loged in ');
+                                            Navigator.of(context).pushNamed(
+                                                TabsScreen.routeName);
                                           } on FirebaseAuthException catch (error) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  new AlertDialog(
+                                                elevation: 2,
+                                                title: new Text(
+                                                  'Warning',
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat'),
+                                                ),
+                                                content: new Text(
+                                                    'Somthing Wrong\n 1- check credential\n 2- verfy your email'),
+                                                actions: <Widget>[
+                                                  new IconButton(
+                                                      icon:
+                                                          new Icon(Icons.close),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      })
+                                                ],
+                                              ),
+                                            );
+
                                             print('Somthing Wrong');
                                           }
-                                          print('you are loged in ');
-                                          Navigator.of(context).pushNamed(
-                                              HomePageScreen.routeName);
                                         },
                                         shape: RoundedRectangleBorder(
                                           borderRadius:

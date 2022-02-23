@@ -10,6 +10,7 @@ import 'package:karhabti_app/Connect/Screens/SignIn_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:karhabti_app/HomePage/Screens/HomePage_screen.dart';
+import '../Providers/Users.dart';
 
 import '../../firebase_options.dart';
 
@@ -302,6 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       _password.text;
                                                   final userName =
                                                       _username.text;
+
                                                   final url = Uri.parse(
                                                       'https://test-1dc4e-default-rtdb.firebaseio.com/users.json');
 
@@ -321,11 +323,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       url,
                                                       body: json.encode({
                                                         'id': userCredential
-                                                            .user?.uid,
-                                                        'name': _username.text,
-                                                        'email': _email.text,
+                                                            .user?.uid
+                                                            .toString(),
+                                                        'name':
+                                                            userName.toString(),
+                                                        'email': email,
                                                         'password': _password
                                                             .text.hashCode,
+                                                        'adress': '',
+                                                        'genre': '',
+                                                        'FavoritesId': '',
+                                                        'naissance':
+                                                            DateTime.now()
+                                                                .toString(),
+                                                        'numTel': '',
+                                                        'photoProfilUrl': '',
+                                                        'ReviewId': '',
+                                                        'vehiculeId': '',
                                                       }),
                                                     )
                                                         .then(
@@ -358,6 +372,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                             elevation: 2,
                                                             title: new Text(
                                                               'Warning',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Montserrat'),
                                                             ),
                                                             content: new Text(
                                                                 'Email alredy in use'),
