@@ -101,7 +101,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            _pages[1]['title'].toString(),
+            _pages[_selectPageIndex]['title'].toString(),
             style: TextStyle(
               fontFamily: 'Montserrat',
               color: Theme.of(context).primaryColor,
