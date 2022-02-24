@@ -110,7 +110,7 @@ class _NoteScreenState extends State<NoteScreen> {
     );
   }
 
-  void _deletTransaction(String id) {}
+  Future<void> _deletTransaction(String id) async {}
 
   @override
   Widget build(BuildContext context) {
