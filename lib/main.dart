@@ -5,6 +5,7 @@ import 'package:karhabti_app/HomePage/Screens/home_tabs_screen.dart';
 import 'package:karhabti_app/Notification/note_screen.dart';
 import 'package:karhabti_app/Notification/note_tabs_screen.dart';
 import 'package:karhabti_app/Notification/widgets/Events.dart';
+import 'package:karhabti_app/Notification/widgets/chart.dart';
 import 'Features/Screen/FeaturesScreen.dart';
 import 'HomeScreen/Screens/splachScreen.dart';
 import 'Connect/Screens/ConnectScreen.dart';
@@ -68,7 +69,7 @@ class _MyAppState extends State<MyApp> {
         TabsScreen.routeName: (context) => TabsScreen(),
         NoteTabsScreen.routeName: (context) => NoteTabsScreen(),
         TableEventsExample.routeName: (context) => TableEventsExample(),
-        HomeTabsScreen.routeName: (context) => HomeTabsScreen()
+        HomeTabsScreen.routeName: (context) => HomeTabsScreen(),
       },
     );
   }
