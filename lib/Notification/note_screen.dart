@@ -1,13 +1,15 @@
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:karhabti_app/Notification/widgets/chart.dart';
 import '../Notification/widgets/utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../Notification/CostTrack/Models/transaction.dart';
 import '../Notification/CostTrack/Widgets/new_transaction.dart';
 import '../Notification/CostTrack/Widgets/transaction_list.dart';
+import 'package:http/http.dart' as http;
 
 class NoteScreen extends StatefulWidget {
   static const routeName = '/note';
@@ -17,26 +19,81 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
+  var _isInit = true;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   late CalendarController _controller;
   final List<Transaction> _userTransaction = [];
   void initState() {
+    Future.delayed(Duration.zero).then((_) {});
     super.initState();
     _controller = CalendarController();
   }
 
-  void _addNewTransaction(String title, double amount, DateTime chosenDate) {
-    final newTx = Transaction(
-      id: DateTime.now().toString(),
-      title: title,
-      amount: amount,
-      date: chosenDate,
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      fetchAndSetProducts().then((_) {});
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  Future<void> fetchAndSetProducts() async {
+    final url = Uri.parse(
+      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction.json',
     );
-    setState(() {
-      _userTransaction.add(newTx);
-    });
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((prodId, prodData) {
+        _userTransaction.add(Transaction(
+          id: prodId,
+          title: prodData['title'],
+          amount: prodData['amount'],
+          date: DateTime.parse(prodData['date']),
+        ));
+      });
+      print(extractedData);
+      print(_userTransaction);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _addNewTransaction(
+      String title, double amount, DateTime chosenDate) async {
+    final url = Uri.parse(
+      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction.json',
+    );
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'id': DateTime.now().toString(),
+          'title': title,
+          'amount': amount,
+          'date': chosenDate.toString(),
+        }),
+      );
+
+      final newTx = Transaction(
+        id: DateTime.now().toString(),
+        title: title,
+        amount: amount,
+        date: chosenDate,
+      );
+      setState(() {
+        _userTransaction.add(newTx);
+      });
+      print(_userTransaction);
+      // _items.insert(0, newProduct); // at the start of the list
+
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 
   void _startAddNewTransaction(BuildContext context) {
@@ -53,14 +110,14 @@ class _NoteScreenState extends State<NoteScreen> {
     );
   }
 
-  void _deletTransaction(String id) {
-    setState(() {
-      _userTransaction.removeWhere((tx) => tx.id == id);
-    });
-  }
+  void _deletTransaction(String id) {}
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _refreshTransaction(BuildContext context) async {
+      await fetchAndSetProducts();
+    }
+
     List<charts.Series<OrdinalSales, String>> _createSampleData() {
       final desktopSalesData = [
         new OrdinalSales('2014', 5),
@@ -229,53 +286,57 @@ class _NoteScreenState extends State<NoteScreen> {
                 ],
               ),
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Title(
-                            color: Theme.of(context).primaryColor,
-                            child: Text(
-                              "Track your car'expenses",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+            RefreshIndicator(
+              onRefresh: () => _refreshTransaction(context),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Title(
+                              color: Theme.of(context).primaryColor,
+                              child: Text(
+                                "Track your car'expenses",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: FloatingActionButton.extended(
-                              onPressed: () => _startAddNewTransaction(context),
-                              label: Text('Add Cost'),
-                              icon: Icon(Icons.add),
+                          Container(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: FloatingActionButton.extended(
+                                onPressed: () =>
+                                    _startAddNewTransaction(context),
+                                label: Text('Add Cost'),
+                                icon: Icon(Icons.add),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: Chart(_createSampleData(), animate: false),
+                        ],
                       ),
-                    ),
-                    SingleChildScrollView(
-                      // height: MediaQuery.of(context).size.height,
-                      child:
-                          TransactionList(_userTransaction, _deletTransaction),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: Chart(_createSampleData(), animate: false),
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        // height: MediaQuery.of(context).size.height,
+                        child: TransactionList(
+                            _userTransaction, _deletTransaction),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

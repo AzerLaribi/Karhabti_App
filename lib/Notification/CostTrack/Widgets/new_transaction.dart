@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -27,7 +28,7 @@ class _NewTransactionState extends State<NewTransaction> {
     if (entredTitle.isEmpty || entreAmount <= 0 || _selectedDate == null) {
       return;
     }
-    // ignore: curly_braces_in_flow_control_structures
+
     widget.addTx(
       entredTitle,
       entreAmount,
@@ -47,7 +48,7 @@ class _NewTransactionState extends State<NewTransaction> {
         return;
       }
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = pickedDate as DateTime?;
       });
     });
   }
@@ -70,7 +71,7 @@ class _NewTransactionState extends State<NewTransaction> {
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               keyboardType: TextInputType.number,
-              onSubmitted: (_) => _SubmitData,
+
               controller: _amountController,
               // onChanged: (value) => AmountInput = value,
             ),
