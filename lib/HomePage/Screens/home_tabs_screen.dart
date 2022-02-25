@@ -100,6 +100,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
 
     if (FirebaseAuth.instance.currentUser!.emailVerified) {
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             _pages[_selectPageIndex]['title'].toString(),

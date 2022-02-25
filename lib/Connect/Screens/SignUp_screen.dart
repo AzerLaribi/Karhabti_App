@@ -50,6 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     return Scaffold(
+      
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,

@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:karhabti_app/Favorites/favorites_screen.dart';
+import 'package:karhabti_app/Notification/models/events.dart';
+import 'package:karhabti_app/Notification/widgets/Events.dart';
 import '../../../Notification/note_screen.dart';
 import './HomePage/Screens/HomePage_screen.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import './Notification/widgets/Events.dart' as Ev;
 
 enum MenuAction {
   Logout,
@@ -38,7 +41,7 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': 'Favorites',
       },
       {
-        'page': HomePageScreen(),
+        'page': TableEventsExample(),
         'title': 'Seetings',
       },
     ];
@@ -101,6 +104,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     if (FirebaseAuth.instance.currentUser!.emailVerified) {
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             _pages[_selectPageIndex]['title'].toString(),

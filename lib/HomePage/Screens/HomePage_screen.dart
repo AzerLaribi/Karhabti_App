@@ -246,10 +246,25 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     context,
                                     'assets/images/services/map.png',
                                     'Find your\n Service Provider',
-                                    () {
-                                      Navigator.of(context)
-                                          .pushNamed(HomeTabsScreen.routeName);
-                                    },
+                                    () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          new AlertDialog(
+                                        elevation: 2,
+                                        title: new Text(
+                                          'SORRY',
+                                        ),
+                                        content: new Text(
+                                            'Karhabti Map Unavailable'),
+                                        actions: <Widget>[
+                                          new IconButton(
+                                              icon: new Icon(Icons.close),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              })
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                   ServiceCard(
                                     context,
@@ -276,7 +291,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         title: new Text(
                                           'SORRY',
                                         ),
-                                        content: new Text('Unavailable'),
+                                        content: new Text(
+                                          'Karhabti Tutorial Unavailable',
+                                        ),
                                         actions: <Widget>[
                                           new IconButton(
                                               icon: new Icon(Icons.close),
@@ -299,7 +316,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         title: new Text(
                                           'SORRY',
                                         ),
-                                        content: new Text('Unavailable'),
+                                        content: new Text(
+                                            'Karhabti Diagnostic Unavailable'),
                                         actions: <Widget>[
                                           new IconButton(
                                               icon: new Icon(Icons.close),

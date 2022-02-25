@@ -101,6 +101,7 @@ class _FavoritesTabsScreenState extends State<FavoritesTabsScreen> {
 
     if (FirebaseAuth.instance.currentUser!.emailVerified) {
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             _pages[_selectPageIndex]['title'].toString(),

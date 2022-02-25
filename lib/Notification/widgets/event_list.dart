@@ -1,24 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import '../Models/transaction.dart';
+import 'package:karhabti_app/Notification/models/events.dart';
+import '../CostTrack/Models/transaction.dart';
 import 'package:intl/intl.dart';
 
-class TransactionList extends StatelessWidget {
-  final List<Transaction> transactions;
+class EventList extends StatelessWidget {
+  final List<Events> events;
   final Function deleteTx;
-  TransactionList(this.transactions, this.deleteTx);
+  EventList(this.events, this.deleteTx);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: MediaQuery.of(context).size.height * 0.7,
       //ListView.builder() methode
-      child: transactions.isEmpty
+      child: events.isEmpty
           ? Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: <Widget>[
                 Text(
-                  'No Transaction added',
+                  'No Event added',
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(
@@ -39,19 +40,16 @@ class TransactionList extends StatelessWidget {
                       radius: 30,
                       child: Padding(
                         padding: EdgeInsets.all(5),
-                        child: FittedBox(
-                          child: Text(
-                            '\$ ${transactions[index].amount}',
-                          ),
-                        ),
+                        child:
+                            FittedBox(child: Icon(Icons.lock_clock_outlined)),
                       ),
                     ),
                     title: Text(
-                      transactions[index].title,
+                      events[index].title,
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                     subtitle: Text(
-                      DateFormat().format(transactions[index].date),
+                      DateFormat().format(events[index].date),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -91,7 +89,7 @@ class TransactionList extends StatelessWidget {
                                           Colors.red),
                                 ),
                                 onPressed: () {
-                                  deleteTx(transactions[index].id);
+                                  deleteTx(events[index].id);
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text(
@@ -112,7 +110,7 @@ class TransactionList extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: transactions.length,
+              itemCount: events.length,
             ),
     );
   }
