@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
+import 'package:karhabti_app/Favorites/favorites_screen.dart';
 import '../../../Notification/note_screen.dart';
 import '../HomePage/Screens/HomePage_screen.dart';
 import 'dart:async';
@@ -32,7 +33,7 @@ class _NoteTabsScreenState extends State<NoteTabsScreen> {
         'title': 'Notification',
       },
       {
-        'page': HomePageScreen(),
+        'page': FavoritesScreen(),
         'title': 'Favorites',
       },
       {

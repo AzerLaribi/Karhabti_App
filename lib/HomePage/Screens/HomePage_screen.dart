@@ -3,12 +3,10 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:karhabti_app/HomePage/Screens/home_tabs_screen.dart';
 import '../../Notification/note_tabs_screen.dart';
 import '../../firebase_options.dart';
-import 'dart:developer' as devtools;
 
 enum MenuAction {
   Logout,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../Notification/note_screen.dart';
+import '../../Favorites/favorites_screen.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import './HomePage_screen.dart';
@@ -32,7 +33,7 @@ class _HomeTabsScreenState extends State<HomeTabsScreen> {
         'title': 'Notification',
       },
       {
-        'page': HomePageScreen(),
+        'page': FavoritesScreen(),
         'title': 'Favorites',
       },
       {

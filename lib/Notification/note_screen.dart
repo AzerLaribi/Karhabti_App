@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:karhabti_app/Notification/widgets/chart.dart';
@@ -6,7 +7,8 @@ import '../Notification/widgets/utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import '../Notification/CostTrack/Models/transaction.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import '../Notification/CostTrack/Models/transaction.dart' as Tr;
 import '../Notification/CostTrack/Widgets/new_transaction.dart';
 import '../Notification/CostTrack/Widgets/transaction_list.dart';
 import 'package:http/http.dart' as http;
@@ -18,13 +20,19 @@ class NoteScreen extends StatefulWidget {
   _NoteScreenState createState() => _NoteScreenState();
 }
 
+class SalesData {
+  SalesData(this.year, this.sales);
+  final DateTime year;
+  final double sales;
+}
+
 class _NoteScreenState extends State<NoteScreen> {
   var _isInit = true;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   late CalendarController _controller;
-  final List<Transaction> _userTransaction = [];
+  final List<Tr.Transaction> _userTransaction = [];
   void initState() {
     Future.delayed(Duration.zero).then((_) {});
     super.initState();
@@ -42,13 +50,13 @@ class _NoteScreenState extends State<NoteScreen> {
 
   Future<void> fetchAndSetProducts() async {
     final url = Uri.parse(
-      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction.json',
+      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction/${FirebaseAuth.instance.currentUser?.uid}/transaction.json',
     );
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((prodId, prodData) {
-        _userTransaction.add(Transaction(
+        _userTransaction.add(Tr.Transaction(
           id: prodId,
           title: prodData['title'],
           amount: prodData['amount'],
@@ -65,7 +73,7 @@ class _NoteScreenState extends State<NoteScreen> {
   Future<void> _addNewTransaction(
       String title, double amount, DateTime chosenDate) async {
     final url = Uri.parse(
-      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction.json',
+      'https://test-1dc4e-default-rtdb.firebaseio.com/Transaction/${FirebaseAuth.instance.currentUser?.uid}/transaction.json',
     );
     try {
       final response = await http.post(
@@ -78,7 +86,7 @@ class _NoteScreenState extends State<NoteScreen> {
         }),
       );
 
-      final newTx = Transaction(
+      final newTx = Tr.Transaction(
         id: DateTime.now().toString(),
         title: title,
         amount: amount,
@@ -114,65 +122,15 @@ class _NoteScreenState extends State<NoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<SalesData> chartData = [
+      SalesData(DateTime(2017), 28),
+      SalesData(DateTime(2018), 20),
+      SalesData(DateTime(2019), 17),
+      SalesData(DateTime(2020), 35),
+      SalesData(DateTime(2021), 40)
+    ];
     Future<void> _refreshTransaction(BuildContext context) async {
       await fetchAndSetProducts();
-    }
-
-    List<charts.Series<OrdinalSales, String>> _createSampleData() {
-      final desktopSalesData = [
-        new OrdinalSales('2014', 5),
-        new OrdinalSales('2015', 25),
-        new OrdinalSales('2016', 100),
-        new OrdinalSales('2017', 75),
-      ];
-
-      final tabletSalesData = [
-        new OrdinalSales('2014', 25),
-        new OrdinalSales('2015', 50),
-        new OrdinalSales('2016', 10),
-        new OrdinalSales('2017', 20),
-      ];
-
-      final mobileSalesData = [
-        new OrdinalSales('2014', 10),
-        new OrdinalSales('2015', 15),
-        new OrdinalSales('2016', 50),
-        new OrdinalSales('2017', 45),
-      ];
-
-      final otherSalesData = [
-        new OrdinalSales('2014', 20),
-        new OrdinalSales('2015', 35),
-        new OrdinalSales('2016', 15),
-        new OrdinalSales('2017', 10),
-      ];
-
-      return [
-        new charts.Series<OrdinalSales, String>(
-          id: 'Desktop',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
-          data: desktopSalesData,
-        ),
-        new charts.Series<OrdinalSales, String>(
-          id: 'Tablet',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
-          data: tabletSalesData,
-        ),
-        new charts.Series<OrdinalSales, String>(
-          id: 'Mobile',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
-          data: mobileSalesData,
-        ),
-        new charts.Series<OrdinalSales, String>(
-          id: 'Other',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
-          data: otherSalesData,
-        ),
-      ];
     }
 
     return DefaultTabController(
@@ -287,6 +245,7 @@ class _NoteScreenState extends State<NoteScreen> {
               ),
             ),
             RefreshIndicator(
+              backgroundColor: Colors.white,
               onRefresh: () => _refreshTransaction(context),
               child: SingleChildScrollView(
                 child: Padding(
@@ -326,14 +285,26 @@ class _NoteScreenState extends State<NoteScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: Chart(_createSampleData(), animate: false),
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: SfCartesianChart(
+                              primaryXAxis: DateTimeAxis(),
+                              series: <ChartSeries>[
+                                // Renders line chart
+                                LineSeries<SalesData, DateTime>(
+                                    dataSource: chartData,
+                                    xValueMapper: (SalesData sales, _) =>
+                                        sales.year,
+                                    yValueMapper: (SalesData sales, _) =>
+                                        sales.sales)
+                              ]),
                         ),
                       ),
                       SingleChildScrollView(
                         // height: MediaQuery.of(context).size.height,
-                        child: TransactionList(
-                            _userTransaction, _deletTransaction),
+                        child: InkWell(
+                          child: TransactionList(
+                              _userTransaction, _deletTransaction),
+                        ),
                       ),
                     ],
                   ),

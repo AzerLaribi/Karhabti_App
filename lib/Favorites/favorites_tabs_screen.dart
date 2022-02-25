@@ -1,27 +1,27 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, deprecated_member_use, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
-import 'package:karhabti_app/Favorites/favorites_screen.dart';
 import '../../../Notification/note_screen.dart';
-import './HomePage/Screens/HomePage_screen.dart';
+
+import '../Favorites/favorites_screen.dart';
+import '../HomePage/Screens/HomePage_screen.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 enum MenuAction {
   Logout,
   EditProfil,
 }
 
-class TabsScreen extends StatefulWidget {
-  static const routeName = '/tabs';
+class FavoritesTabsScreen extends StatefulWidget {
+  static const routeName = '/favorites-tabs';
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  State<FavoritesTabsScreen> createState() => _FavoritesTabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _FavoritesTabsScreenState extends State<FavoritesTabsScreen> {
   late List<Map<String, Object>> _pages;
-  int _selectPageIndex = 0;
+  int _selectPageIndex = 2;
   @override
   void initState() {
     _pages = [
